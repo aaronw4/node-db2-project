@@ -64,4 +64,22 @@ router.put('/:id', async (req, res) => {
     }
 })
 
+router.delete('/:id', async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).json({
+            error: 'Must include an id.'
+        })
+    }
+    try{
+        const carDelete = await db('cars')
+            .where('id', req.params.id)
+            .del();
+        res.status(200).end()
+    } catch {
+        res.status(500).json({
+            error: 'Failed to delete car.'
+        })
+    }
+})
+
 module.exports = router;
